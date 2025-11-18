@@ -35,27 +35,28 @@ The goal is to process Yelp review and business data, load it into Snowflake, ad
   - `yelp_academic_dataset_business.json`
   - (Other dataset files were not used.)
 
+> **Note:** The script used to split the large Yelp review JSON file into smaller chunks
+> (`split_files.py`) is available in the original repository by Ankit Bansal:  
+> https://github.com/ankitbansal6/end_to_end_data_analytics_project  
+> I executed the script to prepare the data for Snowflake ingestion, but the script itself is **not included here**.
+
 ---
 
 ### **2. Data Preprocessing in Python (Jupyter Notebook)**
-- The `yelp_academic_dataset_review.json` file is extremely large.
-- To optimize upload and downstream processing:
-  - The dataset was **split into 10 smaller JSON files** using `split_files.py`.
-- Each resulting file was uploaded to **AWS S3**.
+- Split the Yelp review dataset into smaller JSON files (10 files total) to optimize upload to AWS S3.  
+- Each file was uploaded to **AWS S3** for cloud storage.
 
 ---
 
 ### **3. Loading Data into Snowflake from AWS S3**
-Using Snowflake features such as `FILE FORMAT` and `COPY INTO`:
-- Loaded all review and business JSON files from S3 into Snowflake tables.
-- Converted and flattened nested JSON fields into structured table columns.
+- Used Snowflake’s `COPY INTO` and `FILE FORMAT` to load JSON files from S3 into Snowflake tables.  
+- Flattened nested JSON fields into structured columns for analysis.
 
 ---
 
 ### **4. Adding Sentiment Analysis**
-Using a Snowflake UDF provided in **UDF and tables.sql** in the creator's repo:
-- Added a new column: `sentiment`
-- Each review text was classified as:
+- Created a new column `sentiment` for each review text using a Snowflake UDF.  
+- Sentiment values:
   - `positive`
   - `neutral`
   - `negative`
@@ -64,18 +65,30 @@ Using a Snowflake UDF provided in **UDF and tables.sql** in the creator's repo:
 
 ## 📊 Data Analysis Tasks
 
-After loading the data and computing sentiment, various SQL analyses were performed, including:
+Performed various SQL analyses, including:
 
-1. **Find the number of businesses in each category.**
-2. **Find the top 10 users who have reviewed the most businesses in the "Restaurants" category.**
-3. **Identify the most popular categories of businesses** (based on number of reviews).
-4. **Retrieve the top 3 most recent reviews for each business.**
-5. **Find the month with the highest number of reviews.**
-6. **Calculate the percentage of 5-star reviews for each business.**
-7. **Find the top 5 most reviewed businesses in each city.**
-8. **Find the average rating of businesses that have at least 100 reviews.**
-9. **List the top 10 users who have written the most reviews**, along with the businesses they reviewed.
-10. **Find the top 10 businesses with the highest number of positive-sentiment reviews.**
+1. Number of businesses in each category  
+2. Top 10 users who reviewed the most businesses in "Restaurants"  
+3. Most popular business categories (based on number of reviews)  
+4. Top 3 most recent reviews for each business  
+5. Month with the highest number of reviews  
+6. Percentage of 5-star reviews for each business  
+7. Top 5 most reviewed businesses in each city  
+8. Average rating of businesses with at least 100 reviews  
+9. Top 10 users with the most reviews, along with the businesses they reviewed  
+10. Top 10 businesses with highest number of positive sentiment reviews
+
+---
+
+## 🖼 Screenshots / Proof of Work
+
+### AWS S3 Upload
+![AWS S3 Upload](images/aws_s3_upload.png)
+
+### Snowflake Table Preview
+![Snowflake Table Preview](images/snowflake_table_preview.png)
+
+> These screenshots demonstrate that the data was uploaded to AWS S3 and successfully loaded into Snowflake.
 
 ---
 
@@ -86,7 +99,6 @@ This project is **based on and inspired by** the tutorial by **Ankit Bansal**:
 - YouTube Video: https://www.youtube.com/watch?v=oXLxbk5USFg  
 - Original GitHub Repository: https://github.com/ankitbansal6/end_to_end_data_analytics_project  
 
-This repository contains **my own implementation** of the tutorial’s workflow  
-and **does not include or redistribute** any of the original source code.
+While the **overall workflow** follows the tutorial, **all implementation in this repository (Python scripts, SQL queries, and analysis) was written and executed by me**.
 
 ---
